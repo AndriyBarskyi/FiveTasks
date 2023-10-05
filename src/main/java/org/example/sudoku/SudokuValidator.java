@@ -21,13 +21,42 @@ public class SudokuValidator {
 
         for (int i = 0; i < n; i++) {
             if (sudoku.get(i).size() != n || !isUnique(sudoku.get(i))
-                || !isUnique(getColumn(sudoku, i))
-            ) {
+                || !isUnique(getColumn(sudoku, i))) {
                 return false;
             }
         }
 
+        int smallBoxSize = (int) Math.sqrt(n);
+        for (int row = 0; row < n; row += smallBoxSize) {
+            for (int col = 0; col < n; col += smallBoxSize) {
+                if (!isUnique(getSmallBox(sudoku, row, col, smallBoxSize))) {
+                    return false;
+                }
+            }
+        }
+
         return true;
+    }
+
+    /**
+     * Retrieves the values from a specific small box in a Sudoku board.
+     *
+     * @param sudoku      the Sudoku board represented as a 2D list of integers
+     * @param startRow    the starting row index of the box
+     * @param startColumn the starting column index of the box
+     * @param smallBoxSize the size of the box (typically the square root of the box size)
+     * @return a list of integers representing the values in the small box
+     */
+    private static List<Integer> getSmallBox(List<List<Integer>> sudoku,
+        int startRow, int startColumn, int smallBoxSize) {
+        List<Integer> smallBox = new ArrayList<>();
+        for (int row = startRow; row < startRow + smallBoxSize; row++) {
+            for (int col = startColumn;
+                 col < startColumn + smallBoxSize; col++) {
+                smallBox.add(sudoku.get(row).get(col));
+            }
+        }
+        return smallBox;
     }
 
     /**

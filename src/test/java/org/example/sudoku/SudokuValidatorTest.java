@@ -36,8 +36,16 @@ class SudokuValidatorTest {
         anotherValidSudoku.add(List.of(2, 8, 7, 4, 1, 9, 6, 3, 5));
         anotherValidSudoku.add(List.of(3, 4, 5, 2, 8, 6, 1, 7, 9));
 
+        List<List<Integer>> smallSudoku = new ArrayList<>();
+
+        smallSudoku.add(List.of(1, 2, 3, 4));
+        smallSudoku.add(List.of(3, 4, 1, 2));
+        smallSudoku.add(List.of(2, 3, 4, 1));
+        smallSudoku.add(List.of(4, 1, 2, 3));
+
         return Stream.of(Arguments.of(validSudoku, true),
-            Arguments.of(anotherValidSudoku, true));
+            Arguments.of(anotherValidSudoku, true),
+            Arguments.of(smallSudoku, true));
     }
 
     private static Stream<Arguments> negativeValues() {
@@ -82,6 +90,28 @@ class SudokuValidatorTest {
         tooShortRowSudoku.add(List.of(2, 4, 3, 5, 6, 1, 9, 7, 8));
         tooShortRowSudoku.add(List.of(1, 9, 5, 2, 8, 7, 6, 3, 4));
 
+        List<List<Integer>> boxDuplicateSudoku = new ArrayList<>();
+
+        boxDuplicateSudoku.add(List.of(1, 2, 3,  4, 5, 6,  7, 8, 9));
+        boxDuplicateSudoku.add(List.of(4, 5, 6,  7, 8, 9,  1, 2, 3));
+        boxDuplicateSudoku.add(List.of(7, 8, 9,  1, 2, 3,  4, 5, 6));
+
+        boxDuplicateSudoku.add(List.of(2, 3, 4,  5, 6, 7,  8, 9, 1));
+        boxDuplicateSudoku.add(List.of(5, 6, 7,  8, 9, 1,  2, 3, 4));
+        boxDuplicateSudoku.add(List.of(3, 4, 5,  6, 7, 8,  9, 1, 2));
+
+        boxDuplicateSudoku.add(List.of(8, 9, 1,  2, 3, 4,  5, 6, 7));
+        boxDuplicateSudoku.add(List.of(6, 7, 8,  9, 1, 2,  3, 4, 5));
+        boxDuplicateSudoku.add(List.of(9, 1, 2,  3, 4, 5,  6, 7, 8));
+
+
+        List<List<Integer>> duplicateSmallBoxInSmallSudoku = new ArrayList<>();
+
+        duplicateSmallBoxInSmallSudoku.add(List.of(1, 2, 3, 4));
+        duplicateSmallBoxInSmallSudoku.add(List.of(2, 3, 4, 1));
+        duplicateSmallBoxInSmallSudoku.add(List.of(3, 4, 1, 2));
+        duplicateSmallBoxInSmallSudoku.add(List.of(4, 1, 2, 3));
+
         List<List<Integer>> emptySudoku = new ArrayList<>();
 
         List<List<Integer>> emptyRowSudoku = new ArrayList<>();
@@ -92,7 +122,9 @@ class SudokuValidatorTest {
             Arguments.of(tooShortSudoku, false),
             Arguments.of(tooShortRowSudoku, false),
             Arguments.of(emptySudoku, false),
-            Arguments.of(emptyRowSudoku, false));
+            Arguments.of(emptyRowSudoku, false),
+            Arguments.of(boxDuplicateSudoku, false),
+            Arguments.of(duplicateSmallBoxInSmallSudoku, false));
     }
 
     @ParameterizedTest
